@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load is_booked_by_student %}
+
+{% block stylesheets %}
+
+    <link href="{% static 'css/profile.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h3>Tutor profile</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    {% if profile.image %}
+                        <img src="{{ profile.image.url }}" alt="image"
+                             style="width:100%; height: 200px !important;">
+                    {% else %}
+                        <img src="{% static 'images/avatar.png' %}" alt="image"
+                             style="width:100%; height: 200px !important;">
+                    {% endif %}
+                    <img src="" alt=""/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        {{ profile.user.username }}
+                    </h5>
+                    <h5 class="text-black-50">
+                        Education: {{ profile.education|default:"N/A" }}
+                    </h5>
+                    <h6 class="text-black-50">
+                        Description: {{ profile.description|default:"N/A"|default_if_none:"N/A" }}
+                    </h6>
+                    {% is_booked_by_student profile.user_id as is_booked %}
+                    {% if is_booked %}
+                        <a href="#" class="btn btn-primary">You already booked the tutor</a>
+                    {% else %}
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                            Request
+                            for booking
+                        </button>
+                    {% endif %}
+                </div>
+
+                <!-- The Modal -->
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Booking request</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <form action="{% url 'mytutor:booking.request' profile.user_id %}" method="post">
+                                {% csrf_token %}
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="date">Date:</label>
+                                        <input type="date" class="form-control" name="date" required
+                                               placeholder="Enter date" id="date">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="date">Time:</label>
+                                        <input type="time" class="form-control" name="time" required
+                                               placeholder="Enter time" id="time">
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-success" value="Submit">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

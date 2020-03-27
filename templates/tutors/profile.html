@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row my-2">
+            <div class="col-lg-8 order-lg-2">
+                <h5 class="mb-5"><b>User Profile</b></h5>
+                <div class="row">
+                    <div class="col-md-9">
+                        <h6>User Name: {{ user.username }}</h6>
+                        <h6>Email id: {{ user.email }}</h6>
+                        <h6>Description: {{ user.profile.description|default_if_none:"N/A" }}</h6>
+                        <a href="{% url 'mytutor:edit.profile' %}" class="btn btn-success">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 order-lg-1 text-center">
+                {% if user.profile.image %}
+                    <img src="{{ user.profile.image.url }}" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+                {% else %}
+                    <img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+                {% endif %}
+                <label class="custom-file">
+                    <input type="file" id="file" class="custom-file-input">
+                </label>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

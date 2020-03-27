@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="col-lg-7 offset-3 mb-3">
+        <div class="box">
+            <h3 class="heading">New account</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.name == 'role' %}
+
+                        <div class="form-group">
+                            <label>Role</label>
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="teacher"
+                                       value="teacher">
+                                <label class="form-check-label" for="teacher">Teacher</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="role" id="student"
+                                       value="student">
+                                <label class="form-check-label" for="student">Student</label>
+                            </div>
+                        </div>
+
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+
+                    {% else %}
+
+                        <div class="form-group">
+                            <label for="id_{{ field.name }}">{{ field.label }}</label>
+                            <input type="{{ field.field.widget.input_type }}"
+                                   class="form-control"
+                                   name="{{ field.name }}"
+                                   id="id_{{ field.name }}"
+                                   placeholder="{{ field.field.widget.attrs.placeholder }}">
+                        </div>
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+
+                    {% endif %}
+                {% endfor %}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-user-md"></i> Register
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

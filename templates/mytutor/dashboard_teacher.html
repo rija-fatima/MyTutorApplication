@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                Dashboard <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mytutor:my.booking.request' %}">
+                                Booking requests
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mytutor:add.course' %}">
+                                Add Course
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Teacher Dashboard</h1>
+                    <a href="{% url 'mytutor:profile' %}" class="btn btn-outline-danger">Profile</a>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Account information</h3>
+                        <h5>Contact information</h5>
+                        <p>{{ request.user.username }}</p>
+                        <p>Email: {{ request.user.email }}</p>
+                        <p>Education: {{ request.user.profile.education|default:"N/A" }}</p>
+                        <p>Description: {{ request.user.profile.description|default:"N/A"|default_if_none:"N/A" }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>My Courses</h5>
+                        {% for course in courses %}
+                            <li>
+                                <a href="{% url 'mytutor:course-details' course.course.id %}">{{ course.course }}</a>
+                            </li>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-6">
+                        <h3>My students</h3>
+                        {% for student in students %}
+                            <li>
+                                {{ student.username }} ({{ student.email }})
+                            </li>
+                        {% endfor %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

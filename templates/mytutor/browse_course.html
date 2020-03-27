@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link href="{% static 'css/tutors.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-8 offset-2">
+            <h2>List of courses</h2>
+            <div class="list-group list-row block">
+                {% for course in courses %}
+                    <div class="list-group-item">
+                        <div class="flex">
+                            <a href="{% url 'mytutor:course-details' course.id %}" class="item-author text-color">{{ course.title }}</a>
+                            <div class="item-except text-muted text-sm h-1x">{{ course.description|truncatechars:100 }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

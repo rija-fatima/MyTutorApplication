@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-8 offset-2">
+            <h2>Add to your course</h2>
+            <div class="list list-row block">
+                <form action="" method="get">
+                    <div class="form-group">
+                        <label for="sel1">Select list:</label>
+                        <select class="form-control" name="course_id" id="sel1">
+                            <option value="" selected>Choose</option>
+                            {% for course in courses %}
+                                <option value="{{ course.id }}">{{ course.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" value="Create">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link href="{% static 'css/tutors.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-8 offset-2">
+            <h2>List of teachers</h2>
+            <div class="list list-row block">
+                {% for teacher in teachers %}
+                    <div class="list-item">
+                        <div>
+                            <a href="#" data-abc="true">
+                            <span class="w-48 avatar gd-success">
+                                <img src="https://img.icons8.com/color/48/000000/guest-male.png" alt=".">
+                            </span>
+                            </a>
+                        </div>
+                        <div class="flex">
+                            <a href="{% url 'mytutor:user.profile' teacher.id %}" class="item-author text-color" data-abc="true">{{ teacher.username }}</a>
+                            <div class="item-except text-muted text-sm h-1x">{{ teacher.profile.education }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

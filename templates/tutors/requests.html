@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link href="{% static 'css/tutors.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-8 offset-2">
+            <h2>Booking requests</h2>
+            <div class="list-group list-row block">
+                {% if booking_requests.count > 0 %}
+                    {% for booking in booking_requests %}
+                        <div class="list-group-item">
+                            <div class="flex">
+                                <a href="#" class="item-author">Name: {{ booking.student.username }}</a>
+                                <p>Date: {{ booking.date }}</p>
+                                <p>Time: {{ booking.time }}</p>
+                                <div class="clearfix"></div>
+                                <a href="{% url 'mytutor:booking.request.accept' booking.id %}"
+                                   onclick="return confirm('Are you sure?')"
+                                   class="btn btn-success float-right">Accept</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h1 class="text-success">No bookings found</h1>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
